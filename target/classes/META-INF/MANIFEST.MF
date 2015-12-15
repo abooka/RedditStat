@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Built-By: andrey
+Class-Path: ./lib/hsqldb-2.3.3.jar ./lib/json-simple-1.1.1.jar ./lib/j
+ unit-4.10.jar ./lib/hamcrest-core-1.1.jar
+Build-Jdk: 1.8.0_65
+Created-By: Maven Integration for Eclipse
+Main-Class: net.reddit.statistics.SubRedditStatJSON
+
