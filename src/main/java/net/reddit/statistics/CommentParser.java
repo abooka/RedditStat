@@ -17,7 +17,7 @@ public class CommentParser implements Runnable{
 	Connection DBConn;
 	JSONParser parser = new JSONParser();
 	List<String> posts;
-	
+
 	
 	//Receives list of post URL's and DB name then collects information about 
 	//corresponding comments and stores it into DB

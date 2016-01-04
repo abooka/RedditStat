@@ -123,6 +123,8 @@ public class SubRedditStatJSON {
 		System.out.println("=======================================================================");
 		System.out.println("Collecting information about comments..");
 		//split posts List onto threadCount List's and for each of then start comment parser in separate thread
+		
+		Thread[] threads =  new Thread[threadCount]; 
 		for(int i=0; i<threadCount; i++){
 			int size = posts.size()/threadCount+1;
 			List<String> postsToProcess = Arrays.asList(Arrays.copyOfRange(posts.toArray(new String[posts.size()]), i*size, Math.min((i+1)*size, posts.size())));
@@ -130,8 +132,14 @@ public class SubRedditStatJSON {
 			Thread thread = new Thread(commentParser);
 			
 			thread.start();
-			thread.join();
+			threads[i]=thread;
+
 		}
+		
+		for (int i=0; i<threadCount; i++){
+			threads[i].join();
+		}
+		
 
 		//All data is collected now. Creating report
 		System.out.println("=======================================================================");
@@ -185,45 +193,45 @@ public class SubRedditStatJSON {
 		htmlReport+="<div><h2>Posts statistics</h2></div>";
 		
 		htmlReport+="<div><h3>1. Posts created:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, count(*) from posts group by author  having count(*) >=" + postsTreshold +" order by count(*) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, count(*) from posts group by author  having count(*) >=" + postsTreshold +" order by count(*) desc", false);
 		
 		htmlReport+="<div><h3>2. Posts carma total:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, sum (ups) from posts group by author  having count(*) >=" + postsTreshold+" order by sum(ups) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, sum (ups) from posts group by author  having count(*) >=" + postsTreshold+" order by sum(ups) desc", false);
 		
 		htmlReport+="<div><h3>3. Posts carma average:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(ups)/count(*) from posts group by author having count(*) >=" + postsTreshold+" order by 1.00*sum(ups)/count(*) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(ups)/count(*) from posts group by author having count(*) >=" + postsTreshold+" order by 1.00*sum(ups)/count(*) desc", false);
 		
 		htmlReport+="<div><h3>4. Comments total for created posts:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, sum(num_comments) from posts group by author  having count(*) >=" + postsTreshold+" order by sum(num_comments) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, sum(num_comments) from posts group by author  having count(*) >=" + postsTreshold+" order by sum(num_comments) desc", false);
 		
 		htmlReport+="<div><h3>5. Comments average for created posts:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(num_comments)/count(*) from posts group by author  having count(*) >=" + postsTreshold+" order by 1.00*sum(num_comments)/count(*) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(num_comments)/count(*) from posts group by author  having count(*) >=" + postsTreshold+" order by 1.00*sum(num_comments)/count(*) desc", false);
 		
 		htmlReport+="<div><h3>6. Comments by user total:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, count(*) from comments group by author  having count(*) >=" + commentsTreshold +" order by count(*) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, count(*) from comments group by author  having count(*) >=" + commentsTreshold +" order by count(*) desc", false);
 		
 		htmlReport+="<div><h3>7. Comments carma total:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, sum (score) from comments group by author  having count(*) >=" + commentsTreshold+" order by sum(score) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, sum (score) from comments group by author  having count(*) >=" + commentsTreshold+" order by sum(score) desc", false);
 		
 		htmlReport+="<div><h3>8. Comments carma average:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(score)/count(*)  from comments group by author  having count(*) >=" + commentsTreshold+" order by 1.00*sum(score)/count(*)  desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(score)/count(*)  from comments group by author  having count(*) >=" + commentsTreshold+" order by 1.00*sum(score)/count(*)  desc", false);
 		
 		htmlReport+="<div><h3>9. Comments anti-carma average:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(score)/count(*)  from comments group by author  having count(*) >=" + commentsTreshold+" order by 1.00*sum(score)/count(*)", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" author, 1.00*sum(score)/count(*)  from comments group by author  having count(*) >=" + commentsTreshold+" order by 1.00*sum(score)/count(*)", false);
 		
 		htmlReport+="<div><h3>10. Popular flairs:</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+" link_flair_text, count(*) from posts group by link_flair_text  having count(*) >=" + postsTreshold +" order by count(*) desc", false);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+" link_flair_text, count(*) from posts group by link_flair_text  having count(*) >=" + postsTreshold +" order by count(*) desc", false);
 		
 		htmlReport+="<div><h2>Remarkable posts and comments</h2></div>";
 		
 		htmlReport+="<div><h3>1. Top rated posts</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+"'<a href=\"'+permalink+'\">'+permalink+'</a>', ups from posts order by ups desc", true);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+"'<a href=\"'+permalink+'\">'+permalink+'</a>', ups from posts order by ups desc", true);
 		
 		htmlReport+="<div><h3>2. Top rated comments</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+"'<a href=\"'+permalink+'\">'+permalink+'</a>', score from comments order by score desc", true);
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+"'<a href=\"'+permalink+'\">'+permalink+'</a>', score from comments order by score desc", true);
 		
-		htmlReport+="<div><h3>2. Top anti-rated comments</h3></div>";
-		htmlReport+= gatRecordsetAsHTML("select top "+showTopCount+"'<a href=\"'+permalink+'\">'+permalink+'</a>', score from comments order by score", true);
+		htmlReport+="<div><h3>3. Top anti-rated comments</h3></div>";
+		htmlReport+= getRecordsetAsHTML("select top "+showTopCount+"'<a href=\"'+permalink+'\">'+permalink+'</a>', score from comments order by score", true);
 		
 		
 		
@@ -252,7 +260,7 @@ public class SubRedditStatJSON {
 	
 	
 	
-	private static String gatRecordsetAsHTML(String sql, boolean isLink) throws SQLException{
+	private static String getRecordsetAsHTML(String sql, boolean isLink) throws SQLException{
 		String result = "";
 		int length = 0;
 		ResultSet rs = DBConn.createStatement().executeQuery(sql);
