@@ -31,13 +31,13 @@
       <directory>src/main/resources</directory>
       <includes>
       	<include>Run.bat</include>
-      	<include>README.TXT</include>
       </includes>
     </fileSet>
     <fileSet>
       <outputDirectory>/</outputDirectory>
       <includes>
       	<include>config.properties</include>
+      	<include>README.md</include>
       </includes>
     </fileSet>
   </fileSets>
