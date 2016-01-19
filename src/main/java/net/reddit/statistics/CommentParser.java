@@ -19,6 +19,9 @@ public class CommentParser implements Runnable{
 	List<String> posts;
 
 	
+	
+	
+	
 	//Receives list of post URL's and DB name then collects information about 
 	//corresponding comments and stores it into DB
 	CommentParser(List<String> posts, String dbName) throws SQLException{

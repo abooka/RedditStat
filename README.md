@@ -20,17 +20,18 @@ File config.properties contains following parameters:
 
 - "subRedditName" - name of your subreddit.
 - "endOfPeriod", "chunkInDays" and "periodInChunks" - These parameters are for definition of period, for which you want 
-to collect data. It's a bit overcomplicated because Reddit search results are limited to 1000 results. 
+to collect data. It's a bit overcomplicated because Reddit search results are limited to 1000 records. 
 In most cases it will be OK if you set chunkInDays=1, periodInChunks= {Duration of period in days}, and 
 endOfPeriod = {End of search period. Format - dd.MM.yyyy HH:mm:ss}. 
 - "postsTreshold" users with less then postsTreshold posts created for period will not be shown at report charts 
 related to posts.
 - "commentsTreshold" users with less then commentsTreshold comments created for period will not be shown at report charts 
 related to comments.
-- "showTopCount" - size of report charts;
+- "showTopCount" - size of report charts.
 - "threadCount" - quantity of threads for comments processing. Probably, default value is OK. 
 - "httpRequestIntervalInMills" - minimum interval between consequent requests. Reddit policy is: "Make no more than thirty 
 requests per minute" (https://github.com/reddit/reddit/wiki/API), so minimum value is 2000;
+- "lang" - Report language. Avaliable values: EN, RU, UA.
 
 #How can I execute my own query?
 You can run HSQL Database Manager with command: "java -jar lib/hsqldb-2.3.3.jar". Then select Standalone DB type and 

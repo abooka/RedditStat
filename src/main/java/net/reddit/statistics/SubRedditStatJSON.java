@@ -35,6 +35,7 @@ public class SubRedditStatJSON {
 	static int commentsTreshold;
 	static int postsTreshold;
 	static int showTopCount;
+	static String lang;
 	
 	public static void main(String[] args) throws ParseException, IOException, SQLException, InterruptedException {
 
@@ -53,6 +54,8 @@ public class SubRedditStatJSON {
 		chunks = Integer.parseInt(props.getProperty("periodInChunks"));
 		commentsTreshold = Integer.parseInt(props.getProperty("commentsTreshold"));
 		postsTreshold = Integer.parseInt(props.getProperty("postsTreshold"));
+		lang = props.getProperty("lang");
+		
 		RedditAccessor.getInstance().setInterval(Integer.parseInt(props.getProperty("httpRequestIntervalInMills")));
 		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 		Date endDate = new Date();
@@ -141,7 +144,7 @@ public class SubRedditStatJSON {
 		System.out.println("=======================================================================");
 		System.out.println("Preparing report..");		
 		Report report = new Report(subRedditName, endDate, chunks, chunkInDays, commentsTreshold, postsTreshold, showTopCount, DBConn);
-		report.prepareReport(reportDir);
+		report.prepareReport(reportDir, lang);
 		
 		//and finish
 		DBConn.commit();

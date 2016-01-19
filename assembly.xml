@@ -10,6 +10,7 @@
   <formats>
     <format>zip</format>
   </formats>
+  
   <fileSets>
     <fileSet>
       <outputDirectory>/</outputDirectory>
@@ -31,6 +32,13 @@
       <directory>src/main/resources</directory>
       <includes>
       	<include>Run.bat</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <outputDirectory>/resources</outputDirectory>
+      <directory>resources</directory>
+      <includes>
+      	<include>**/locale.*</include>
       </includes>
     </fileSet>
     <fileSet>
