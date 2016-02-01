@@ -143,7 +143,7 @@ public class SubRedditStatJSON {
 		//All data is collected now. Creating report
 		System.out.println("=======================================================================");
 		System.out.println("Preparing report..");		
-		Report report = new Report(subRedditName, endDate, chunks, chunkInDays, commentsTreshold, postsTreshold, showTopCount, DBConn);
+		Report report = new Report(subRedditName, endOfPeriod, chunks, chunkInDays, commentsTreshold, postsTreshold, showTopCount, DBConn);
 		report.prepareReport(reportDir, lang);
 		
 		//and finish
