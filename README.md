@@ -39,4 +39,4 @@ enter DB URL - something like "jdbc:hsqldb:file:/home/myName/SubRedditStat/Repor
 DB structure is quite simple and self-explanatory. For more details about HSQL DB see http://hsqldb.org/
 
 #I have found a bug!
-Please, contact /r/abooka.
+Please, contact /u/abooka.
