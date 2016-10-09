@@ -1,5 +1,6 @@
 package net.reddit.statistics;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,6 +69,7 @@ public class SubRedditStatJSON {
 		}
 		sdf = new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss");
 		reportDir = "Report_"+sdf.format(new Date());
+		new File("reportDir").mkdirs();
 		dbName = reportDir+"/redditdb"; 
 		
 		//creating database
@@ -200,10 +202,12 @@ public class SubRedditStatJSON {
 		permalink=permalink.replace("?ref=search_posts", "");
 		posts.add(permalink);
 		System.out.println(permalink);
+		
+		String flair = data.get("link_flair_text")==null? "null" : data.get("link_flair_text").toString().replace("'", "''");
 
 		String threadSQL = "insert into posts (permalink, link_flair_text, author, ups, num_comments, created_utc) values ('"+ 
 				permalink +"','"+
-				data.get("link_flair_text") +"','"+
+				flair +"','"+
 				data.get("author") +"',"+
 				data.get("ups") +","+
 				data.get("num_comments") +",'"+
